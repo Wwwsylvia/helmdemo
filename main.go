@@ -11,14 +11,9 @@ var host = "myregistry.azurecr.io"
 var username = "username"
 var password = "password"
 var ref = "helmtest/hello-world/hello-world-0.1.0.tgz"
+var repo = "helmdemo"
 
 func main() {
-	repo := "/helmdemo"
-	url := host + repo
-	Push(ref, url)
-}
-
-func Push(ref, url string) {
 	client, err := registry.NewClient()
 	checkError(err)
 
@@ -28,6 +23,7 @@ func Push(ref, url string) {
 	p, err := pusher.NewOCIPusher(pusher.WithRegistryClient(client))
 	checkError(err)
 
+	url := fmt.Sprintf("%s/%s", host, repo)
 	err = p.Push(ref, url)
 	checkError(err)
 
